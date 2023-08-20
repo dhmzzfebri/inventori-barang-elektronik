@@ -11,28 +11,24 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
+    <!-- css -->
+    <?php
+        require_once('_css.php');
+        ?>
+    </head>
+     <style>
+        td {
+            width: 100px;
+            height: 100px;
+            padding: 0px;
+        }
 
-    <!-- Favicon -->
-    <link href="dashmin-1.0.0/img/favicon.ico" rel="icon">
-
-    <!-- Google Web Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Icon Font Stylesheet -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
-
-    <!-- Libraries Stylesheet -->
-    <link href="dashmin-1.0.0/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
-    <link href="dashmin-1.0.0/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
-
-    <!-- Customized Bootstrap Stylesheet -->
-    <link href="dashmin-1.0.0/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- Template Stylesheet -->
-    <link href="dashmin-1.0.0/css/style.css" rel="stylesheet">
+        img {
+            max-width: 100%;
+            max-height: 200%;
+            object-fit: contain;
+        }
+    </style>
 </head>
 
 <body>
@@ -58,8 +54,10 @@
                 <div class=" bg-light rounded align-items-center justify-content-center mx-0">
                 <div class="col-12">
                         <div class="bg-light rounded h-100 p-4">                     
-                            <h5 class="mb-4">Stok Barang</h5>
-                            <button type="button" class="btn btn-primary m-2">Tambah Barang</button>
+                            <h4 class="mb-4">Stok Barang</h4>
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
+                            Tambah Barang
+                            </button>
                             <a href="export.php" class="btn btn-dark">Export Data</a>
                             <div class="table-responsive">
                                 <table class="table">
@@ -93,21 +91,106 @@
                                         $img = '<img src="images/' . $gambar . '" class="zoomable">';
                                       } ?>
                                         <tr>
-                                            <td>><?= $i++; ?></td>
-                                            <td>><?= $img; ?></td>
-                                            <td>><?= $namabarang; ?></td>
-                                            <td>><?= $deskripsi; ?></td>
-                                            <td>><?= $stock; ?></td>
+                                            <td><?= $i++; ?></td>
+                                            <td><?= $img; ?></td>
+                                            <td><?= $namabarang; ?></td>
+                                            <td><?= $deskripsi; ?></td>
+                                            <td><?= $stock; ?></td>
                                             <td>
-                                                <button type="button" class="btn btn-warning rounded-pill m-2"><i class="fa fa-home" data-bs-toggle="modal" data-bs-target="#edit<?= $idb; ?>"></i></button>
-                                                <button type="button" class="btn btn-danger rounded-pill m-2"><i class="fa fa-home" data-bs-toggle="modal" data-bs-target="#delete<?= $idb; ?>"></i></button>
+                                                <button type="button" class="btn btn-warning rounded-pill m-2"><i class="far fa-edit" data-bs-toggle="modal" data-bs-target="#edit<?= $idb; ?>"></i></button>
+                                                <button type="button" class="btn btn-danger rounded-pill m-2"><i class="fas fa-trash" data-bs-toggle="modal" data-bs-target="#delete<?= $idb; ?>"></i></button>
                                             </td>
                                         </tr>
+                                        <!-- Edit Modal -->
+                                            <div class="modal fade" id="edit<?= $idb; ?>">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+
+                                                <!-- Modal Header -->
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Edit Barang</h4>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                </div>
+
+
+                                                <!-- Modal Body -->
+                                                <form method="post" enctype="multipart/form-data">
+                                                    <div class="modal-body">
+                                                    <input type="text" name="namabarang" value="<?= $namabarang; ?>" class="form-control" required>
+                                                    <br>
+                                                    <input type="text" name="deskripsi" value="<?= $deskripsi; ?>" class="form-control" required>
+                                                    <br>
+                                                    <input type="file" name="file" class="form-control">
+                                                    <br>
+                                                    <input type="hidden" name="idb" value="<?= $idb; ?>">
+                                                    <button type="submit" class="btn btn-primary" name="updatebarang">Submit</button>
+                                                    </div>
+                                                </form>
+
+                                                </div>
+                                            </div>
+                                            </div>
+
+                                            <!-- Delete Modal -->
+                                            <div class="modal fade" id="delete<?= $idb; ?>">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+
+                                                <!-- Modal Header -->
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Hapus Barang?</h4>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                </div>
+
+
+                                                <!-- Modal Body -->
+                                                <form method="post">
+                                                    <div class="modal-body">
+                                                    Apakah Anda yakin ingin menghapus <?= $namabarang; ?>?
+                                                    <input type="hidden" name="idb" value="<?= $idb; ?>">
+                                                    <br>
+                                                    <br>
+                                                    <button type="submit" class="btn btn-danger" name="hapusbarang">Hapus</button>
+                                                    </div>
+                                                </form>
+                                                </div>
+                                            </div>
+                                                
+                                            </div>
                                         <?php
                                           };
                                           ?>
                                     </tbody>
                                 </table>
+                            </div>
+                            <div class="modal fade" id="myModal">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+
+                                    <!-- Modal Header -->
+                                    <div class="modal-header">
+                                        <h4 class="modal-title">Tambah Barang</h4>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                    </div>
+
+
+                                    <!-- Modal Body -->
+                                    <form method="post" enctype="multipart/form-data">
+                                        <div class="modal-body">
+                                        <input type="text" name="namabarang" placeholder="Nama Barang" class="form-control" required>
+                                        <br>
+                                        <input type="text" name="deskripsi" placeholder="Deskripsi Barang" class="form-control" required>
+                                        <br>
+                                        <input type="number" name="stock" class="form-control" placeholder="Stock" required>
+                                        <br>
+                                        <input type="file" name="file" class="form-control">
+                                        <br>
+                                        <button type="submit" class="btn btn-primary" name="addnewbarang">Submit</button>
+                                        </div>
+                                    </form>
+
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -140,18 +223,9 @@
     </div>
 
     <!-- JavaScript Libraries -->
-    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="dashmin-1.0.0/lib/chart/chart.min.js"></script>
-    <script src="dashmin-1.0.0/lib/easing/easing.min.js"></script>
-    <script src="dashmin-1.0.0/lib/waypoints/waypoints.min.js"></script>
-    <script src="dashmin-1.0.0/lib/owlcarousel/owl.carousel.min.js"></script>
-    <script src="dashmin-1.0.0/lib/tempusdominus/js/moment.min.js"></script>
-    <script src="dashmin-1.0.0/lib/tempusdominus/js/moment-timezone.min.js"></script>
-    <script src="dashmin-1.0.0/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
-
-    <!-- Template Javascript -->
-    <script src="dashmin-1.0.0/js/main.js"></script>
+    <?php
+    require_once('_js.php');
+    ?>
 </body>
 
 </html>

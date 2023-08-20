@@ -1,9 +1,9 @@
 <?php  
-//jika belum login
+// jika belum login
 
-if(isset($_SESSION['log'])){
+// if(isset($_SESSION['log'])){
 
-}else {
-	header('location:login.php');
-}
+// }else {
+// 	header('location:login.php');
+// }
 ?>

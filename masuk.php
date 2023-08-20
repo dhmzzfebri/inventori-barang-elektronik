@@ -7,14 +7,28 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Barang Keluar</title>
+    <title>DASHMIN - Bootstrap Admin Template</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
-
+    <!-- css -->
     <?php
     require_once('_css.php');
     ?>
+     <style>
+        td {
+            width: 100px;
+            height: 100px;
+            padding: 0px;
+        }
+
+        img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+    </style>
+</head>
 </head>
 
 <body>
@@ -34,30 +48,31 @@
                 <div class=" bg-light rounded align-items-center justify-content-center mx-0">
                 <div class="col-12">
                         <div class="bg-light rounded h-100 p-4">                     
-                            <h5 class="mb-4">Barang Keluar</h5>
+                            <h5 class="mb-4">Barang Masuk</h5>
                             <button type="button" class="btn btn-primary m-2" data-bs-toggle="modal" data-bs-target="#myModal">Tambah Barang</button>
-                            <a href="export.php" class="btn btn-dark">Export Data</a>
+                            <a href="exportmasuk.php" class="btn btn-dark">Export Data</a>
                             <div class="table-responsive">
                                 <table class="table">
                                     <thead>
                                         <tr>
                                             <th scope="col">Tanggal</th>
+                                            <th scope="col">Gambar</th>
                                             <th scope="col">Nama Barang</th>
                                             <th scope="col">Jumlah</th>
-                                            <th scope="col">Penerima</th>
+                                            <th scope="col">Keterangan</th>
                                             <th scope="col">Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                     <?php
-                                        $ambilsemuadatastock = mysqli_query($conn, "select * from keluar k, stock s where s.idbarang = k.idbarang");
+                                        $ambilsemuadatastock = mysqli_query($conn, "select * from masuk m, stock s where s.idbarang = m.idbarang");
                                         while ($data = mysqli_fetch_array($ambilsemuadatastock)) {
-                                            $idk = $data['idkeluar'];
                                             $idb = $data['idbarang'];
+                                            $idm = $data['idmasuk'];
                                             $tanggal = $data['tanggal'];
                                             $namabarang = $data['namabarang'];
                                             $qty = $data['qty'];
-                                            $penerima = $data['penerima'];
+                                            $keterangan = $data['keterangan'];
 
                                             //cek ada gambar atau tidak
                                             $gambar = $data['image']; //ambil gambar
@@ -69,21 +84,27 @@
                                             $img = '<img src="images/' . $gambar . '" class="zoomable">';
                                             }
 
-                                        ?>
+                                    ?>
                                             <tr>
-                                                <td><?= $tanggal; ?></td>                        
+                                                <td><?= $tanggal; ?></td>
+                                                <td><?= $img; ?></td>
                                                 <td><?= $namabarang; ?></td>
                                                 <td><?= $qty; ?></td>
-                                                <td><?= $penerima; ?></td>
+                                                <td><?= $keterangan; ?></td>
                                                 <td>
-                                                     <button type="button" class="btn btn-warning rounded-pill m-2"><i class="far fa-edit" data-bs-toggle="modal" data-bs-target="#edit<?= $idk; ?>"></i></button>
-                                                    <button type="button" class="btn btn-danger rounded-pill m-2"><i class="fas fa-trash" data-bs-toggle="modal" data-bs-target="#delete<?= $idk; ?>"></i></button>
+                                                    <button type="button" class="btn btn-warning rounded-pill m-2">
+                                                        <i class="far fa-edit" data-bs-toggle="modal" data-bs-target="#edit<?= $idm; ?>"></i>
+                                                    </button>
+
+                                                    <button type="button" class="btn btn-danger rounded-pill m-2">
+                                                    <i class="fas fa-trash" data-bs-toggle="modal" data-bs-target="#delete<?= $idm; ?>"></i>
+                                                    </button>
                                                 </td>
                                             </tr>
                                             
                                             <!-- Edit Modal -->
-                                            <div class="modal fade" id="edit<?= $idk; ?>">
-                                            <div class="modal-dialog">
+                                            <div class="modal fade" id="edit<?= $idm; ?>">
+                                            <div class="modal-dialog modal-dialog-centered">
                                                 <div class="modal-content">
 
                                                 <!-- Modal Header -->
@@ -96,13 +117,13 @@
                                                 <!-- Modal Body -->
                                                 <form method="post">
                                                     <div class="modal-body">
-                                                    <input type="text" name="penerima" value="<?= $penerima; ?>" class="form-control" required>
+                                                    <input type="text" name="keterangan" value="<?= $keterangan; ?>" class="form-control" required>
                                                     <br>
                                                     <input type="number" name="qty" value="<?= $qty; ?>" class="form-control" required>
                                                     <br>
                                                     <input type="hidden" name="idb" value="<?= $idb; ?>">
-                                                    <input type="hidden" name="idk" value="<?= $idk; ?>">
-                                                    <button type="submit" class="btn btn-primary" name="updatebarangkeluar">Submit</button>
+                                                    <input type="hidden" name="idm" value="<?= $idm; ?>">
+                                                    <button type="submit" class="btn btn-primary" name="updatebarangmasuk">Submit</button>
                                                     </div>
                                                 </form>
 
@@ -111,8 +132,8 @@
                                             </div>
 
 
-                                             <!-- Delete Modal -->
-                                            <div class="modal fade" id="delete<?= $idk; ?>">
+                                            <!-- Delete Modal -->
+                                            <div class="modal fade" id="delete<?= $idm; ?>">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
 
@@ -129,18 +150,16 @@
                                                     Apakah Anda yakin ingin menghapus <?= $namabarang; ?>?
                                                     <input type="hidden" name="idb" value="<?= $idb; ?>">
                                                     <input type="hidden" name="kty" value="<?= $qty; ?>">
-                                                    <input type="hidden" name="idk" value="<?= $idk; ?>">
+                                                    <input type="hidden" name="idm" value="<?= $idm; ?>">
                                                     <br>
                                                     <br>
-                                                    <button type="submit" class="btn btn-danger" name="hapusbarangkeluar">Hapus</button>
+                                                    <button type="submit" class="btn btn-danger" name="hapusbarangmasuk">Hapus</button>
                                                     </div>
                                                 </form>
 
                                                 </div>
                                             </div>
                                             </div>
-
-
                                         <?php
                                         };
 
@@ -148,14 +167,14 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <!-- Modal tambah barang keluar -->
+                              <!-- Modal tambah barang masuk-->
                             <div class="modal fade" id="myModal">
                             <div class="modal-dialog">
                                 <div class="modal-content">
 
                                 <!-- Modal Header -->
                                 <div class="modal-header">
-                                    <h4 class="modal-title">Tambah Barang Keluar</h4>
+                                    <h4 class="modal-title">Tambah Barang Masuk</h4>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                 </div>
 
@@ -163,6 +182,7 @@
                                 <!-- Modal Body -->
                                 <form method="post">
                                     <div class="modal-body">
+
                                     <select name="barangnya" class="form-control">
                                         <?php
                                         $ambilsemuadatanya = mysqli_query($conn, "select * from stock");
@@ -180,9 +200,11 @@
                                         ?>
                                     </select>
                                     <br>
-                                    <input type="number" name="qty" class="form-control" placeholder="Quantity" required><br>
-                                    <input type="text" name="penerima" placeholder="Penerima" class="form-control" required><br>
-                                    <button type="submit" class="btn btn-primary" name="addbarangkeluar">Submit</button>
+                                    <input type="number" name="qty" class="form-control" placeholder="Quantity" required>
+                                    <br>
+                                    <input type="text" name="penerima" class="form-control" placeholder="Penerima" required>
+                                    <br>
+                                    <button type="submit" class="btn btn-primary" name="barangmasuk">Submit</button>
                                     </div>
                                 </form>
 

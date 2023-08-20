@@ -19,7 +19,7 @@ require 'cek.php';
 
 <body>
     <div class="container">
-        <h2>Stock Bahan</h2>
+        <h2>Barang Masuk</h2>
         <h4>(Inventory)</h4>
         <div class="data-tables datatable-dark">
 
@@ -27,28 +27,28 @@ require 'cek.php';
             <table class="table table-bordered" id="mauexport" width="100%" cellspacing="0">
                 <thead>
                     <tr>
-                        <th>No</th>
+                        <th>Tanggal</th>
                         <th>Nama Barang</th>
-                        <th>Deskripsi</th>
-                        <th>Stock</th>
+                        <th>Jumlah</th>
+                        <th>Keterangan</th>
                     </tr>
                 </thead>
                 <tbody>
                     <?php
-                    $ambilsemuadatastock = mysqli_query($conn, "select * from stock");
-                    $i = 1;
+                    $ambilsemuadatastock = mysqli_query($conn, "select * from masuk m, stock s where s.idbarang = m.idbarang");
                     while ($data = mysqli_fetch_array($ambilsemuadatastock)) {
-                        $namabarang = $data['namabarang'];
-                        $deskripsi = $data['deskripsi'];
-                        $stock = $data['stock'];
                         $idb = $data['idbarang'];
-
+                        $idm = $data['idmasuk'];
+                        $tanggal = $data['tanggal'];
+                        $namabarang = $data['namabarang'];
+                        $qty = $data['qty'];
+                        $keterangan = $data['keterangan'];
                     ?>
                         <tr>
-                            <td><?= $i++; ?></td>
-                            <td><?php echo $namabarang; ?></td>
-                            <td><?php echo $deskripsi; ?></td>
-                            <td><?php echo $stock; ?></td>
+                            <td><?= $tanggal; ?></td>
+                            <td><?= $namabarang; ?></td>
+                            <td><?= $qty; ?></td>
+                            <td><?= $keterangan; ?></td>
                         </tr>
 
                     <?php
