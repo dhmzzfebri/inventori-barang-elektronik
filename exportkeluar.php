@@ -20,8 +20,8 @@ require 'cek.php';
 <body>
     <div class="container">
         <center>
-            <h2>Data Barang Masuk</h2>
-            <h4>Inventori Elektronik</h4>
+        <h2>Data Barang Keluar</h2>
+        <h4>Inventori Elektronik</h4>
         </center>
         <form method="post">
             <label for="start_date">Tanggal Mulai:</label>
@@ -43,33 +43,35 @@ require 'cek.php';
                     </tr>
                 </thead>
                 <tbody>
-                <?php
+                    <?php
                     if (isset($_POST['filter'])) {
                         $tgl1 = $_POST['start_date'];
                         $tgl2 = $_POST['end_date'];
 
-                        $ambilsemuadatastock = mysqli_query($conn, "SELECT * FROM masuk m, stock s WHERE s.idbarang = m.idbarang AND m.tanggal BETWEEN '$tgl1' AND '$tgl2'");
+                        $ambilsemuadatastock = mysqli_query($conn, "SELECT * FROM keluar k, stock s where s.idbarang = k.idbarang AND k.tanggal BETWEEN '$tgl1' AND '$tgl2'");
                     } else {
                         // Jika filter tidak diterapkan, ambil semua data
-                        $ambilsemuadatastock = mysqli_query($conn, "SELECT * FROM masuk m, stock s WHERE s.idbarang = m.idbarang");
+                        $ambilsemuadatastock = mysqli_query($conn, "SELECT * FROM keluar k, stock s where s.idbarang = k.idbarang");
                     }
-
+                    // $ambilsemuadatastock = mysqli_query($conn, "select * from keluar k, stock s where s.idbarang = k.idbarang");
                     while ($data = mysqli_fetch_array($ambilsemuadatastock)) {
                         $idb = $data['idbarang'];
-                        $idm = $data['idmasuk'];
+                        $idk = $data['idkeluar'];
                         $tanggal = $data['tanggal'];
                         $namabarang = $data['namabarang'];
                         $qty = $data['qty'];
-                        $keterangan = $data['keterangan'];
+                        $penerima = $data['penerima'];
                     ?>
                         <tr>
                             <td><?= $tanggal; ?></td>
                             <td><?= $namabarang; ?></td>
                             <td><?= $qty; ?></td>
-                            <td><?= $keterangan; ?></td>
+                            <td><?= $penerima; ?></td>
                         </tr>
+
                     <?php
                     };
+
                     ?>
 
 

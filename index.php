@@ -1,4 +1,5 @@
 <?php
+    $hal="index";
     require 'function.php';
     require 'cek.php';
 ?>
@@ -7,13 +8,13 @@
 
 <head>
     <meta charset="utf-8">
-    <title>DASHMIN - Bootstrap Admin Template</title>
+    <title>Stok Barang</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
     <!-- css -->
     <?php
-        require_once('_css.php');
+        require_once('layour/_css.php');
         ?>
     </head>
      <style>
@@ -54,11 +55,11 @@
                 <div class=" bg-light rounded align-items-center justify-content-center mx-0">
                 <div class="col-12">
                         <div class="bg-light rounded h-100 p-4">                     
-                            <h4 class="mb-4">Stok Barang</h4>
+                            <h5 class="mb-4">Stok Barang</h5>
                             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
-                            Tambah Barang
+                            Tambah Barang Baru
                             </button>
-                            <a href="export.php" class="btn btn-dark">Export Data</a>
+                            <a href="export.php" class="btn btn-dark" target="_blank">Laporan Stok</a>
                             <div class="table-responsive">
                                 <table class="table">
                                     <thead>
@@ -73,7 +74,7 @@
                                     </thead>
                                     <tbody>
                                     <?php
-                                    $ambilsemuadatastock = mysqli_query($conn, "select * from stock");
+                                    $ambilsemuadatastock = mysqli_query($conn, "select * from stock ");
                                     $i = 1;
                                     while ($data = mysqli_fetch_array($ambilsemuadatastock)) {
                                       $namabarang = $data['namabarang'];
@@ -103,32 +104,28 @@
                                         </tr>
                                         <!-- Edit Modal -->
                                             <div class="modal fade" id="edit<?= $idb; ?>">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-
-                                                <!-- Modal Header -->
-                                                <div class="modal-header">
-                                                    <h4 class="modal-title">Edit Barang</h4>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-                                                </div>
-
-
-                                                <!-- Modal Body -->
-                                                <form method="post" enctype="multipart/form-data">
-                                                    <div class="modal-body">
-                                                    <input type="text" name="namabarang" value="<?= $namabarang; ?>" class="form-control" required>
-                                                    <br>
-                                                    <input type="text" name="deskripsi" value="<?= $deskripsi; ?>" class="form-control" required>
-                                                    <br>
-                                                    <input type="file" name="file" class="form-control">
-                                                    <br>
-                                                    <input type="hidden" name="idb" value="<?= $idb; ?>">
-                                                    <button type="submit" class="btn btn-primary" name="updatebarang">Submit</button>
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <!-- Modal Header -->
+                                                        <div class="modal-header">
+                                                            <h4 class="modal-title">Edit Barang</h4>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                        </div>
+                                                        <!-- Modal Body -->
+                                                        <form method="post" enctype="multipart/form-data">
+                                                            <div class="modal-body">
+                                                            <input type="text" name="namabarang" value="<?= $namabarang; ?>" class="form-control" required>
+                                                            <br>
+                                                            <input type="text" name="deskripsi" value="<?= $deskripsi; ?>" class="form-control" required>
+                                                            <br>
+                                                            <input type="file" name="file" class="form-control">
+                                                            <br>
+                                                            <input type="hidden" name="idb" value="<?= $idb; ?>">
+                                                            <button type="submit" class="btn btn-primary" name="updatebarang">Submit</button>
+                                                            </div>
+                                                        </form>
                                                     </div>
-                                                </form>
-
                                                 </div>
-                                            </div>
                                             </div>
 
                                             <!-- Delete Modal -->
@@ -200,19 +197,9 @@
 
 
             <!-- Footer Start -->
-            <div class="container-fluid pt-4 px-4">
-                <div class="bg-light rounded-top p-4">
-                    <div class="row">
-                        <div class="col-12 col-sm-6 text-center text-sm-start">
-                            &copy; <a href="#">Your Site Name</a>, All Right Reserved. 
-                        </div>
-                        <div class="col-12 col-sm-6 text-center text-sm-end">
-                            <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                            Designed By <a href="https://htmlcodex.com">HTML Codex</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <?php
+            require_once('layour/_footer.php');
+            ?>
             <!-- Footer End -->
         </div>
         <!-- Content End -->
@@ -224,7 +211,7 @@
 
     <!-- JavaScript Libraries -->
     <?php
-    require_once('_js.php');
+    require_once('layour/_js.php');
     ?>
 </body>
 

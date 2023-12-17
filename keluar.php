@@ -1,4 +1,5 @@
 <?php
+    $hal="keluar";
     require 'function.php';
     require 'cek.php';
 ?>
@@ -13,7 +14,7 @@
     <meta content="" name="description">
 
     <?php
-    require_once('_css.php');
+    require_once('layour/_css.php');
     ?>
 </head>
 
@@ -36,7 +37,7 @@
                         <div class="bg-light rounded h-100 p-4">                     
                             <h5 class="mb-4">Barang Keluar</h5>
                             <button type="button" class="btn btn-primary m-2" data-bs-toggle="modal" data-bs-target="#myModal">Tambah Barang</button>
-                            <a href="export.php" class="btn btn-dark">Export Data</a>
+                            <a href="exportkeluar.php" class="btn btn-dark" target="_blank">Data Laporan</a>
                             <div class="table-responsive">
                                 <table class="table">
                                     <thead>
@@ -197,19 +198,9 @@
 
 
             <!-- Footer Start -->
-            <div class="container-fluid pt-4 px-4">
-                <div class="bg-light rounded-top p-4">
-                    <div class="row">
-                        <div class="col-12 col-sm-6 text-center text-sm-start">
-                            &copy; <a href="#">Your Site Name</a>, All Right Reserved. 
-                        </div>
-                        <div class="col-12 col-sm-6 text-center text-sm-end">
-                            <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-                            Designed By <a href="https://htmlcodex.com">HTML Codex</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <?php
+            require_once('layour/_footer.php');
+            ?>
             <!-- Footer End -->
         </div>
         <!-- Content End -->
@@ -221,7 +212,7 @@
 
     <!-- JavaScript Libraries -->
     <?php
-    require_once('_js.php');
+    require_once('layour/_js.php');
     ?>
 </body>
 

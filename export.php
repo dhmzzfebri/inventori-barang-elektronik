@@ -19,8 +19,10 @@ require 'cek.php';
 
 <body>
     <div class="container">
-        <h2>Stock Bahan</h2>
-        <h4>(Inventory)</h4>
+        <center>
+            <h2>Data Laporan </h2>
+            <h4>Stok Barang</h4>
+        </center>
         <div class="data-tables datatable-dark">
 
             <!-- Masukkan table nya disini, dimulai dari tag TABLE -->
